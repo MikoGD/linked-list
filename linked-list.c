@@ -68,6 +68,15 @@ void insert_node(Alpha **head_ptr, char data)
         new_node->next_node = previous_node->next_node;
         previous_node->next_node = new_node;
     }//END IF
-
-    return void;
 }//END insert_node()
+
+// Print the list
+void print_list(Alpha *head)
+{
+    Alpha *current_node = head->next_node;
+    do
+    {
+        printf("Address of current node: %p\nData -> %c\nnext_node -> %p\n\n", current_node, current_node->data, current_node->next_node);
+    }//END DO
+    while (head != NULL);
+}//END print_list()
