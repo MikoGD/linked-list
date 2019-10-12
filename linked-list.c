@@ -28,6 +28,7 @@ int main()
     Alpha *head = NULL;
 
     insert_node(&head, 'a');
+    insert_node(&head, 'b');
     print_list(head);    
 
     return 0;
@@ -90,8 +91,10 @@ void print_list(Alpha *head)
         printf("Address of current node: %p\n", current_node);
         printf("Data -> %c\n", current_node->data);
         printf("Next_node -> %p\n\n", current_node->next_node);
+
+        current_node = current_node->next_node;
     }//END DO
-    while (current_node->next_node != NULL);
+    while (current_node != NULL);
 }//END print_list()
 
 // GO through the list until you find the node that the value of data
@@ -105,7 +108,7 @@ Alpha *search_list(Alpha **head_ptr, char data)
         return current_node;
     }
 
-    while (current_node != NULL && current_node->data < data)
+    while (current_node->next_node != NULL && current_node->data < data)
     {
         previous_node = current_node;
         current_node = current_node->next_node;
