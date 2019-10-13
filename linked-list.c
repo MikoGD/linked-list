@@ -46,12 +46,10 @@ void delete_node(Alpha **head_ptr, char data)
     else
     {
         Alpha *previous_node = NULL;
-        Alpha *temp_node;
-
-        temp_node = (Alpha *) malloc(sizeof(Alpha));
+        Alpha **temp_node = NULL;
 
         previous_node = search_list(head_ptr, data);
-        temp_node = previous_node;
+        *temp_node = previous_node->next_node;
         previous_node = previous_node->next_node;
 
         free(temp_node);
@@ -166,8 +164,7 @@ Alpha *search_list(Alpha **head_ptr, char data)
 
     if (current_node->next_node == NULL)
     {
-        printf("Reached end of list\n");
-        return current_node;
+        return previous_node;
     }
 
     return previous_node;
