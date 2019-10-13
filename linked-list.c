@@ -35,6 +35,12 @@ int main()
     return 0;
 }//END main()
 
+/*
+ * Will insert a node into the beginning of the list or
+ *  at the position appropriate to it's data.
+ * For example if the list is [a, c] and the data is b.
+ * It will insert it inbetween a anc c to get [a, b, c].
+ */
 void insert_node(Alpha **head_ptr, char data)
 { 
     // Create new node
@@ -53,14 +59,13 @@ void insert_node(Alpha **head_ptr, char data)
         return;
     }
     
-    /* If the list is empty
-     *  Add the new node in at the beginning of the list.
-     * Else create a pointer previous_node
-     *  and go through the list until the current node it is on data is greater than the
-     *  new node's data.
+    /* If the list is empty, Add the new node in at the beginning of the list.
+     * Else create a pointer previous_node and go through the list until the 
+     * current node it is on data is greater than the new node's data.
      * Insert the node before the current node.
+     * Or if the the next_node member of the current node is NULL, insert it
+     * after current node.
      */
-
     if (*head_ptr == NULL)
     {
         *head_ptr = new_node;
@@ -93,8 +98,10 @@ void print_list(Alpha *head)
         printf("Data -> %c\n", current_node->data);
         printf("Next_node -> %p\n\n", current_node->next_node);
 
+        //Make the current_node the next one
         current_node = current_node->next_node;
     }//END DO
+    //Checks if the node it is on is empty
     while (current_node != NULL);
 }//END print_list()
 
@@ -103,17 +110,36 @@ Alpha *search_list(Alpha **head_ptr, char data)
 {
     Alpha *previous_node = NULL;
     Alpha *current_node = *head_ptr;
-
+    
+    /*
+     * Checks if the node it is on data is equal to what we are looking for
+     * or the next node it is looking for is NULL ie current_node is at the
+     * end of the list.
+     * Return current_node
+     */
     if (current_node->data == data || current_node->next_node == NULL)
     {
         return current_node;
     }
-
+    
+    /*
+     * Goes through the linked list and checks if it is at the end 
+     * i.e. current_node-> node == NULL
+     * and if the data of the current node is greater then what we are looking for.
+     * If they are both false move to the next node by making the current node the
+     * previous node and the current node the next node that it was pointing to.
+     */
     while (current_node->next_node != NULL && current_node->data < data)
     {
         previous_node = current_node;
         current_node = current_node->next_node;
     }//END WHILE
+
+    if (current_node->data < data)
+    {
+        printf("Reached end of list\n");
+        return current_node;
+    }
 
     return previous_node;
 }//END search_list()
