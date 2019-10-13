@@ -46,13 +46,12 @@ void delete_node(Alpha **head_ptr, char data)
     else
     {
         Alpha *previous_node = NULL;
-        Alpha **temp_node = NULL;
+        Alpha *temp_node = NULL;
 
         previous_node = search_list(head_ptr, data);
-        *temp_node = previous_node->next_node;
-        previous_node = previous_node->next_node;
-
+        temp_node = previous_node->next_node;
         free(temp_node);
+        previous_node = previous_node->next_node;
     }//END IF
 }//END delete_node()
 
