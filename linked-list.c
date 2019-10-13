@@ -28,6 +28,7 @@ int main()
     Alpha *head = NULL;
 
     insert_node(&head, 'a');
+    insert_node(&head, 'c');
     insert_node(&head, 'b');
     print_list(head);    
 
@@ -103,7 +104,7 @@ Alpha *search_list(Alpha **head_ptr, char data)
     Alpha *previous_node = NULL;
     Alpha *current_node = *head_ptr;
 
-    if (current_node->data == data)
+    if (current_node->data == data || current_node->next_node == NULL)
     {
         return current_node;
     }
@@ -114,20 +115,5 @@ Alpha *search_list(Alpha **head_ptr, char data)
         current_node = current_node->next_node;
     }//END WHILE
 
-    return current_node;
+    return previous_node;
 }//END search_list()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
