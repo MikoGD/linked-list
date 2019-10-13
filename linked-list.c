@@ -20,20 +20,19 @@ void print_node(Alpha *, char data);
 
 Alpha *search_list(Alpha **, char data);
 
+void display_menu(Alpha *head);
+
 int main()
 {
     // Where the list starts
     // The head will point to the first node of the list when the first node
     //  exits
     Alpha *head = NULL;
-
-    insert_node(&head, 'a');
-    insert_node(&head, 'c');
-    print_node(head, 'c');
-    insert_node(&head, 'b');
-    print_list(head);    
-    delete_node(&head, 'b');
-    print_list(head);    
+    
+    while (1)
+    {
+        display_menu(head);
+    }//END WHILE
 
     return 0;
 }//END main()
@@ -189,3 +188,63 @@ Alpha *search_list(Alpha **head_ptr, char data)
 
     return previous_node;
 }//END search_list()
+
+void display_menu(Alpha *head)
+{
+    char user_input;
+    
+    printf("Enter 1: Insert new node\n");
+    printf("Enter 2: Delete a node\n");
+    printf("Enter 3: Display list\n");
+    printf("Enter 4: Display node details\n");
+    printf("Enter 5: Exit\n\n");
+
+    printf("Enter: ");
+    scanf("%[^\n]%*c", &user_input);
+
+    switch (user_input)
+    {
+        case '1':
+            printf("Enter the data you wish to insert: ");
+            scanf("%[^\n]%*c", &user_input);
+
+            insert_node(&head, user_input);
+
+            break;
+        //END CASE
+
+        case '2':
+            printf("Enter the data you wish to delete: ");
+            scanf("%[^\n]%*c", &user_input);
+
+            delete_node(&head, user_input);
+
+            break;
+        //END CASE
+        
+        case '3':
+            print_list(head);
+
+            break;
+        //END CASE
+        
+        case '4':
+            printf("Enter the data you wish to display: ");
+            scanf("%[^\n]%*c", &user_input);
+
+            print_node(head, user_input);
+
+            break;
+        //END CASE
+
+        case '5':
+            printf("Exiting....");
+            
+            exit(0);
+            break;
+        //END CASE
+        
+        default:
+            printf("ERROR: not a valid menu option\n\n");
+    }//END switch()
+}//END display_menu()
