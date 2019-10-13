@@ -37,7 +37,7 @@ int main()
 
 /*
  * Will insert a node into the beginning of the list or
- *  at the position appropriate to it's data.
+ * at the position appropriate to it's data.
  * For example if the list is [a, c] and the data is b.
  * It will insert it inbetween a anc c to get [a, b, c].
  */
@@ -105,7 +105,11 @@ void print_list(Alpha *head)
     while (current_node != NULL);
 }//END print_list()
 
-// GO through the list until you find the node that the value of data
+/*
+ * Go through the list until you find the node that the value of data.
+ * Return previous node pointing to the node with the value of data.
+ * If it reaches the end of the list return the last node.
+ */
 Alpha *search_list(Alpha **head_ptr, char data)
 {
     Alpha *previous_node = NULL;
