@@ -13,8 +13,8 @@ typedef struct AlphaNode
     struct AlphaNode *next_node;
 } Alpha;
 
-void insert_node(Alpha **, char data);
 void delete_node(Alpha **, char data);
+void insert_node(Alpha **, char data);
 void print_list(Alpha *);
 void print_node(Alpha *, char data);
 
@@ -31,9 +31,32 @@ int main()
     insert_node(&head, 'c');
     insert_node(&head, 'b');
     print_list(head);    
+    delete_node(&head, 'b');
+    print_list(head);    
 
     return 0;
 }//END main()
+
+void delete_node(Alpha **head_ptr, char data)
+{
+    if (*head_ptr == NULL)
+    {
+        printf("List is empty\n\n");
+    }
+    else
+    {
+        Alpha *previous_node = NULL;
+        Alpha *temp_node;
+
+        temp_node = (Alpha *) malloc(sizeof(Alpha));
+
+        previous_node = search_list(head_ptr, data);
+        temp_node = previous_node;
+        previous_node = previous_node->next_node;
+
+        free(temp_node);
+    }//END IF
+}//END delete_node()
 
 /*
  * Will insert a node into the beginning of the list or
@@ -103,6 +126,8 @@ void print_list(Alpha *head)
     }//END DO
     //Checks if the node it is on is empty
     while (current_node != NULL);
+
+    printf("------------------------------------------\n\n");
 }//END print_list()
 
 /*
@@ -117,8 +142,8 @@ Alpha *search_list(Alpha **head_ptr, char data)
     
     /*
      * Checks if the node it is on data is equal to what we are looking for
-     * or the next node it is looking for is NULL ie current_node is at the
-     * end of the list.
+     * or the next node it is looking for is NULL ie there is only node
+     * as current_node at this point is the head
      * Return current_node
      */
     if (current_node->data == data || current_node->next_node == NULL)
@@ -133,13 +158,13 @@ Alpha *search_list(Alpha **head_ptr, char data)
      * If they are both false move to the next node by making the current node the
      * previous node and the current node the next node that it was pointing to.
      */
-    while (current_node->next_node != NULL && current_node->data < data)
+    while (current_node->next_node != NULL && current_node->data <= data)
     {
         previous_node = current_node;
         current_node = current_node->next_node;
     }//END WHILE
 
-    if (current_node->data < data)
+    if (current_node->next_node == NULL)
     {
         printf("Reached end of list\n");
         return current_node;
