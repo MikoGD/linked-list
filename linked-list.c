@@ -51,8 +51,9 @@ void delete_node(Alpha **head_ptr, char data)
 
         previous_node = search_list(head_ptr, data);
         temp_node = previous_node->next_node;
+        previous_node->next_node = previous_node->next_node->next_node;
+
         free(temp_node);
-        previous_node = previous_node->next_node;
     }//END IF
 }//END delete_node()
 
@@ -175,7 +176,7 @@ Alpha *search_list(Alpha **head_ptr, char data)
      * If they are both false move to the next node by making the current node the
      * previous node and the current node the next node that it was pointing to.
      */
-    while (current_node->next_node != NULL && current_node->data <= data)
+    while (current_node->next_node != NULL && current_node->data < data)
     {
         previous_node = current_node;
         current_node = current_node->next_node;
