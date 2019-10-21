@@ -20,18 +20,19 @@ void print_node(Alpha *, char data);
 
 Alpha *search_list(Alpha **, char data);
 
-void display_menu(Alpha *head);
+void display_menu(Alpha **head_ptr);
 
 int main()
 {
     // Where the list starts
     // The head will point to the first node of the list when the first node
-    //  exits
+    // exits
     Alpha *head = NULL;
+    Alpha **head_ptr = &head;
     
     while (1)
     {
-        display_menu(head);
+        display_menu(head_ptr);
     }//END WHILE
 
     return 0;
@@ -64,6 +65,10 @@ void delete_node(Alpha **head_ptr, char data)
  */
 void insert_node(Alpha **head_ptr, char data)
 { 
+    //Declarations
+    Alpha *previous_node;
+    Alpha *current_node;
+
     // Create new node
     Alpha *new_node = (Alpha *) malloc(sizeof(Alpha));
     
@@ -80,24 +85,24 @@ void insert_node(Alpha **head_ptr, char data)
         return;
     }
     
-    /* If the list is empty, Add the new node in at the beginning of the list.
-     * Else create a pointer previous_node and go through the list until the 
-     * current node it is on data is greater than the new node's data.
-     * Insert the node before the current node.
-     * Or if the the next_node member of the current node is NULL, insert it
-     * after current node.
-     */
-    if (*head_ptr == NULL)
+    previous_node = NULL;
+    current_node = *head_ptr;
+
+    //Walk through list
+    while (current_node != NULL && current_node->data < data)
     {
-        *head_ptr = new_node;
+        previous_node = current_node;
+        current_node = current_node->next_node;
+    }//END WHILE
+
+    if (previous_node == NULL)
+    {
         new_node->next_node = NULL;
+        *head_ptr = new_node;
     }
     else
     {
-        Alpha *previous_node = NULL;
-
-        previous_node = search_list(head_ptr, data);
-        new_node->next_node = previous_node->next_node;
+        new_node->next_node = current_node;
         previous_node->next_node = new_node;
     }//END IF
 }//END insert_node()
@@ -189,7 +194,7 @@ Alpha *search_list(Alpha **head_ptr, char data)
     return previous_node;
 }//END search_list()
 
-void display_menu(Alpha *head)
+void display_menu(Alpha **head_ptr)
 {
     char user_input;
     
@@ -201,14 +206,16 @@ void display_menu(Alpha *head)
 
     printf("Enter: ");
     scanf("%[^\n]%*c", &user_input);
+    printf("\n");
 
     switch (user_input)
     {
         case '1':
             printf("Enter the data you wish to insert: ");
             scanf("%[^\n]%*c", &user_input);
+            printf("\n");
 
-            insert_node(&head, user_input);
+            insert_node(head_ptr, user_input);
 
             break;
         //END CASE
@@ -216,14 +223,15 @@ void display_menu(Alpha *head)
         case '2':
             printf("Enter the data you wish to delete: ");
             scanf("%[^\n]%*c", &user_input);
+            printf("\n");
 
-            delete_node(&head, user_input);
+            delete_node(head_ptr, user_input);
 
             break;
         //END CASE
         
         case '3':
-            print_list(head);
+            print_list(*head_ptr);
 
             break;
         //END CASE
@@ -231,14 +239,15 @@ void display_menu(Alpha *head)
         case '4':
             printf("Enter the data you wish to display: ");
             scanf("%[^\n]%*c", &user_input);
+            printf("\n");
 
-            print_node(head, user_input);
+            print_node(*head_ptr, user_input);
 
             break;
         //END CASE
 
         case '5':
-            printf("Exiting....");
+            printf("Exiting....\n\n");
             
             exit(0);
             break;
