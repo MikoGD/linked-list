@@ -40,20 +40,47 @@ int main()
 
 void delete_node(Alpha **head_ptr, char data)
 {
+    //Variable declaration
+    Alpha *previous_node;
+    Alpha *current_node;
+    Alpha *temp_node;
+
     if (*head_ptr == NULL)
     {
         printf("List is empty\n\n");
     }
     else
     {
-        Alpha *previous_node = NULL;
-        Alpha *temp_node = NULL;
+        previous_node = NULL;
+        current_node = *head_ptr;
 
-        previous_node = search_list(head_ptr, data);
-        temp_node = previous_node->next_node;
-        previous_node->next_node = previous_node->next_node->next_node;
+        if (data == (*head_ptr)->data)
+        {
+            temp_node = *head_ptr;
+            *head_ptr = (*head_ptr)->next_node;
 
-        free(temp_node);
+            free(temp_node);
+        }
+        else
+        {
+        //Walk through list
+            while (current_node != NULL && current_node->data != data)
+            {
+                previous_node = current_node;
+                current_node = current_node->next_node;
+            }//END WHILE
+
+            if (current_node != NULL)
+            {
+                temp_node = current_node;
+                previous_node->next_node = current_node->next_node;
+                free(temp_node);
+            }
+            else
+            {
+                printf("Could not find node\n\n");
+            }//END INNER INNER IF
+        }//END INNER IF
     }//END IF
 }//END delete_node()
 
@@ -135,16 +162,24 @@ void print_list(Alpha *head)
 
 void print_node(Alpha *head_ptr, char data)
 {
-    Alpha *current_node = NULL;
+    Alpha *previous_node;
+    Alpha *current_node;
     
-    if (data == head_ptr->data)
+    if (head_ptr->data == data)
     {
-        current_node = search_list(&head_ptr, data);
+        current_node = head_ptr;
     }
     else
     {
-        current_node = (search_list(&head_ptr, data))->next_node;
-    }
+        current_node = head_ptr;
+
+        //Walk through list
+        while (current_node != NULL && current_node->data != data)
+        {
+            previous_node = current_node;
+            current_node = current_node->next_node;
+        }//END WHILE
+    }//END IF
 
     printf("Address of current node: %p\n", current_node);
     printf("Data -> %c\n", current_node->data);
